@@ -4,6 +4,7 @@ using TMPro;
 
 public class AllInOneScript : MonoBehaviour
 {
+    //static action to act as an event that the other methods can subscribe to
     public static Action OnButtonPressed;
 
     public GameObject cubeObject;
@@ -13,6 +14,7 @@ public class AllInOneScript : MonoBehaviour
     private Renderer _cubeRenderer;
     private bool _sphereIsSpinning;
 
+    //array of messages to display
     private string[] messages =
     {
         "Button was Pressed!",
@@ -24,6 +26,7 @@ public class AllInOneScript : MonoBehaviour
 
     private void Start()
     {
+        //get the renderer component of the cube if it's assigned
         if (cubeObject != null)
             _cubeRenderer = cubeObject.GetComponent<Renderer>();
 
@@ -39,7 +42,7 @@ public class AllInOneScript : MonoBehaviour
     public void OnButtonClicked()
     {
         Debug.Log("Button clicked");
-        OnButtonPressed?.Invoke();
+        OnButtonPressed?.Invoke(); //Invoke the action, triggering all subscribed methods
     }
 
     private void ChangeCubeColor()
@@ -78,6 +81,7 @@ public class AllInOneScript : MonoBehaviour
 
     private void OnDestroy()
     {
+        //unsubscribe methods from the action to avoid memory leaks
         OnButtonPressed -= ChangeCubeColor;
         OnButtonPressed -= StartSphereSpinning;
         OnButtonPressed -= DisplayRandomMessage;
